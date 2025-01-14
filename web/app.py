@@ -16,7 +16,8 @@ data = load_data()
 st.write("Nama kolom dalam data:", data.columns.tolist())
 
 tweet_column = 'tweet_preprocessed'  
-sentiment_column = 'sentiment'  
+print(tweet_column)
+sentiment_column = 'label'  
 
 
 st.sidebar.title("Menu")
@@ -46,14 +47,17 @@ if option == 'Show Wordcloud':
 
 
 elif option == 'Show Grafik Sentimen':
-    chart_type = st.sidebar.radio("Pilih Tipe Grafik", ('Histogram', 'Pie Chart'))
+    chart_type = st.sidebar.radio("Pilih Tipe Grafik", ('All Data', 'Data Training', 'Data Testing'))
     sentiment_counts = data[sentiment_column].value_counts()
 
-    if chart_type == 'Histogram':
+    if chart_type == 'All Data':
         st.bar_chart(sentiment_counts)
 
-    elif chart_type == 'Pie Chart':
-        fig, ax = plt.subplots()
-        ax.pie(sentiment_counts, labels=sentiment_counts.index, autopct='%1.1f%%', startangle=90)
-        ax.axis('equal')  
-        st.pyplot(fig)
+    elif chart_type == 'Data Training':
+       st.bar_chart(sentiment_counts)
+
+    elif chart_type == 'Data Testing':
+       st.bar_chart(sentiment_counts)
+
+
+
