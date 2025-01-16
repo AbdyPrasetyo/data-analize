@@ -7,7 +7,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Judul dan Deskripsi Aplikasi
+
 st.title("Analisis Sentimen Komentar Publik")
 st.markdown("**Metode: Support Vector Machine (SVM)**")
 st.markdown("Aplikasi ini menganalisis sentimen komentar publik seperti positif, negatif, dan netral menggunakan metode SVM.")

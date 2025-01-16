@@ -1,63 +1,139 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 from wordcloud import WordCloud
 import numpy as np
 from PIL import Image
-
+from home import show_home  
+from svm import show_svm  
+from streamlit_option_menu import option_menu
 
 @st.cache_data
 def load_data():
-    data = pd.read_csv('data.csv', sep=';')  
+    data = pd.read_csv('data/data.csv', sep=';')  
     return data
 
 data = load_data()
 
-st.write("Nama kolom dalam data:", data.columns.tolist())
+tweet_column = 'tweet_preprocessed'
+sentiment_column = 'label'
 
-tweet_column = 'tweet_preprocessed'  
-print(tweet_column)
-sentiment_column = 'label'  
+with st.sidebar:
+    col1, col2 = st.columns([1, 4]) 
+    with col1:
+        try:
+            logo = Image.open('image/logo.png')  
+            st.image(logo, use_column_width=True)  
+        except FileNotFoundError:
+            st.warning("Logo not found!")
+    with col2:
+        st.markdown(
+            """
+            <div style='display: flex; align-items: center; height: 100%; margin: 0; padding-top: 5px;'>
+                <h1 style='font-size: 20px; margin: 0;'>ASKTPS</h1>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )  
+
+ 
+    option = option_menu(
+        menu_title=None, 
+        options=["Home", "Show Wordcloud", "Show Grafik Sentimen", "Clasification SVM"], 
+        icons=["house", "cloud-sun", "bar-chart", "search"],  
+        default_index=0, 
+        orientation="vertical", 
+    )
 
 
-st.sidebar.title("Menu")
-option = st.sidebar.radio("Pilih Menu", ('Show Wordcloud', 'Show Grafik Sentimen'))
+if option == 'Home':
+    show_home() 
 
+elif option == 'Show Wordcloud':
+ 
+    sentiment_option = st.selectbox(
+        "Pilih Opsi Sentimen untuk Wordcloud", 
+        ['Semua', 'Positif', 'Negatif', 'Netral'], 
+        index=0 
+    )
 
-if option == 'Show Wordcloud':
-    sentiment_option = st.sidebar.radio("Pilih Opsi Wordcloud", ('Semua', 'Positif', 'Negatif', 'Netral'))  
     if sentiment_option == 'Semua':
         filtered_data = data
     else:
         filtered_data = data[data[sentiment_column] == sentiment_option]
 
+    st.markdown("### Wordcloud Berdasarkan Sentimen")
+    st.markdown(
+        "Wordcloud ini menunjukkan kata-kata yang paling sering muncul dalam teks berdasarkan kategori sentimen yang dipilih."
+    )
+    st.markdown("<br>", unsafe_allow_html=True)
+
     text = " ".join(tweet for tweet in filtered_data[tweet_column])
 
+    try:
+        mask_image = Image.open('image/map.webp') 
+        mask_array = np.array(mask_image)
+    except FileNotFoundError:
+        mask_array = None 
 
-    mask_image = Image.open('map.webp')  
-    mask_array = np.array(mask_image)
+    wordcloud = WordCloud(
+        width=800, height=400,
+        background_color='white',
+        mask=mask_array,
+        contour_color='black',
+        contour_width=1
+    ).generate(text)
 
-
-    wordcloud = WordCloud(width=800, height=400, background_color='white', mask=mask_array, contour_color='black', contour_width=1).generate(text)
+    st.image(wordcloud.to_array(), use_column_width=True)
     
-    plt.figure(figsize=(10, 5))
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis('off')
-    st.pyplot(plt)
+    st.subheader("Data yang Digunakan untuk Wordcloud")
+    st.dataframe(filtered_data)
 
 
 elif option == 'Show Grafik Sentimen':
-    chart_type = st.sidebar.radio("Pilih Tipe Grafik", ('All Data', 'Data Training', 'Data Testing'))
-    sentiment_counts = data[sentiment_column].value_counts()
+    st.markdown("### Grafik Sentimen")
+    st.markdown(
+        "Grafik ini menunjukkan distribusi data sentimen berdasarkan jumlah dan persentasenya."
+    )
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    if chart_type == 'All Data':
-        st.bar_chart(sentiment_counts)
+    sentiment_counts = data[sentiment_column].value_counts().reset_index()
+    sentiment_counts.columns = ['Sentiment', 'Count']
+    total = sentiment_counts['Count'].sum()
+    sentiment_counts['Percentage'] = (sentiment_counts['Count'] / total * 100).round(2)
 
-    elif chart_type == 'Data Training':
-       st.bar_chart(sentiment_counts)
+    fig = px.bar(
+        sentiment_counts,
+        x='Sentiment',
+        y='Count',
+        color='Sentiment',
+        text=sentiment_counts['Percentage'].apply(lambda x: f"{x}%"),  
+        color_discrete_map={
+            'Positif': '#4CAF50',
+            'Negatif': '#F44336',
+            'Netral': '#FFC107'
+        },
+        title='Sentiment Analysis',
+        labels={'Sentiment': 'Sentiment', 'Count': 'Jumlah'},
+        template='plotly_white'
+    )
 
-    elif chart_type == 'Data Testing':
-       st.bar_chart(sentiment_counts)
+    fig.update_traces(
+        textposition='outside', 
+        textfont_size=12
+    )
+    fig.update_layout(
+        font=dict(size=14),
+        title_font=dict(size=20, family='Arial'),
+        xaxis=dict(title='Sentiment', tickangle=-45),
+        yaxis=dict(title='Jumlah', gridcolor='rgba(200,200,200,0.3)'),
+        showlegend=False
+    )
+
+    st.plotly_chart(fig)
+    st.subheader("Seluruh Data yang Digunakan untuk Grafik")
+    st.dataframe(data) 
 
 
-
+elif option == 'Clasification SVM':
+    show_svm()  
