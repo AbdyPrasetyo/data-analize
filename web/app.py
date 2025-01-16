@@ -31,7 +31,7 @@ with st.sidebar:
         st.markdown(
             """
             <div style='display: flex; align-items: center; height: 100%; margin: 0; padding-top: 5px;'>
-                <h1 style='font-size: 20px; margin: 0;'>ASKTPS</h1>
+                <h1 style='font-size: 20px; margin: 0;'>APES</h1>
             </div>
             """,
             unsafe_allow_html=True
