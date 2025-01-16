@@ -1,21 +1,27 @@
-# data-analize
-Analisis Sentimen Komentar Tweeter Pemilu  Menggunakan SVM
+# Data-Analize
 
-library yang perlu diinstall:
-1. buka command prompt diwindows dan ketikan perintah:
-2. pip install streamlit pandas plotly wordcloud numpy pillow scikit-learn matplotlib seaborn nltk sastrawi streamlit-option-menu
+**Analisis Sentimen Komentar Twitter Pemilu Menggunakan SVM**
 
-!!!note jika menjalankan preprocessing data eror setelah stopword bisa tambahkan ini dibaris 19
+## Library yang Perlu Diinstal:
+1. Buka Command Prompt di Windows dan ketikkan perintah berikut:
+    ```bash
+    pip install streamlit pandas plotly wordcloud numpy pillow scikit-learn matplotlib seaborn nltk sastrawi streamlit-option-menu
+    ```
 
-    nltk.download('punkt')  
-    
+2. **Catatan Penting:** Jika terjadi error saat menjalankan preprocessing data setelah stopword, tambahkan kode berikut pada baris 19:
+    ```python
+    nltk.download('punkt')
     nltk.download('stopwords')
-    
     nltk.download('punkt_tab')
+    ```
 
+## Akses Web:
+1. Pindah ke direktori `web`:
+    ```bash
+    cd web
+    ```
 
-akses web:
-1. cd web
-
+2. Jalankan aplikasi Streamlit:
+    ```bash
     streamlit run app.py
-
+    ```
