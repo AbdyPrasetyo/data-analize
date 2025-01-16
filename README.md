@@ -16,12 +16,16 @@
     ```
 
 ## Akses Web:
-1. Pindah ke direktori `web`:
+1. Update repo terlebih dahulu:
+     ```bash
+    git pull
+    ```
+2. Pindah ke direktori `web`:
     ```bash
     cd web
     ```
 
-2. Jalankan aplikasi Streamlit:
+3. Jalankan aplikasi Streamlit:
     ```bash
     streamlit run app.py
     ```
