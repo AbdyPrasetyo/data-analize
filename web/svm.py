@@ -222,7 +222,7 @@ def show_svm():
             sizes = pred_counts.values
             total_data = sizes.sum()
 
-            fig2 = px.pie(names=labels, hole=0.7, 
+            fig2 = px.pie(values=pred_counts, names=labels, hole=0.7, 
                           color_discrete_sequence=px.colors.qualitative.Pastel, 
                           title="Prediksi SVM")
 
