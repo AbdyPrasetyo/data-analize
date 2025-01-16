@@ -17,5 +17,5 @@ library yang perlu diinstall:
 akses web:
 1. cd web
 
-streamlit run app.py
+    streamlit run app.py
 
