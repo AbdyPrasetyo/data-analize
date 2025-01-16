@@ -6,8 +6,11 @@ library yang perlu diinstall:
 2. pip install streamlit pandas plotly wordcloud numpy pillow scikit-learn matplotlib seaborn nltk sastrawi streamlit-option-menu
 
 !!!note jika menjalankan preprocessing data eror setelah stopword bisa tambahkan ini dibaris 19
+
     nltk.download('punkt')  
+    
     nltk.download('stopwords')
+    
     nltk.download('punkt_tab')
 
 
