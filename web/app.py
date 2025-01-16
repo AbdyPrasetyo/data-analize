@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image
 from home import show_home  
 from svm import show_svm  
+from preprocessing import show_prepocessing  
 from streamlit_option_menu import option_menu
 
 @st.cache_data
@@ -39,8 +40,8 @@ with st.sidebar:
  
     option = option_menu(
         menu_title=None, 
-        options=["Home", "Show Wordcloud", "Show Grafik Sentimen", "Clasification SVM"], 
-        icons=["house", "cloud-sun", "bar-chart", "search"],  
+        options=["Home","Preprocessing Data", "Show Wordcloud", "Show Grafik Sentimen", "Clasification SVM"], 
+        icons=["house", "sliders", "cloud-sun", "bar-chart", "search"],  
         default_index=0, 
         orientation="vertical", 
     )
@@ -48,6 +49,9 @@ with st.sidebar:
 
 if option == 'Home':
     show_home() 
+
+elif option == 'Preprocessing Data':
+    show_prepocessing()  
 
 elif option == 'Show Wordcloud':
  
