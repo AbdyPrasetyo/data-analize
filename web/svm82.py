@@ -12,7 +12,7 @@ from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 import json
 
-def show_svm():
+def show_svm82():
     # Fungsi untuk memuat model dan data
     def load_data(file):
         data = pd.read_csv(file, sep=';')  # Memuat CSV dengan pemisah koma
@@ -38,7 +38,7 @@ def show_svm():
 
         # Pembagian data dengan stratifikasi
         X_train, X_test, y_train, y_test = train_test_split(
-            X_resampled, y_resampled, test_size=0.4, random_state=42, stratify=y_resampled
+            X_resampled, y_resampled, test_size=0.2, random_state=42, stratify=y_resampled
         )
         
         # Hyperparameter tuning dengan GridSearchCV
@@ -93,7 +93,7 @@ def show_svm():
             st.title(f"Akurasi Model: {acc * 100:.2f}%")
             # Menampilkan hasil akurasi
             st.title("Classification Report")
-            st.write("Classification Report adalah laporan yang digunakan untuk mengevaluasi performa model klasifikasi dalam pembelajaran mesin. Laporan ini memberikan metrik evaluasi untuk setiap kelas dalam dataset, seperti precision, recall, F1-score, dan support.")
+            st.write("Classification Report adalah  laporan yang digunakan untuk mengevaluasi performa model klasifikasi dalam pembelajaran mesin. Laporan ini memberikan metrik evaluasi untuk setiap kelas dalam dataset, seperti precision, recall, F1-score, dan support.")
             result_table = pd.DataFrame({
                 'Label': ['Negatif', 'Netral', 'Positif', 'accuracy', 'macro avg', 'weighted avg'],
                 'precision': [

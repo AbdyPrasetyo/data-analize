@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image
 from home import show_home  
 from svm import show_svm  
+from svm82 import show_svm82  
 from preprocessing import show_prepocessing  
 from streamlit_option_menu import option_menu
 
@@ -40,8 +41,8 @@ with st.sidebar:
  
     option = option_menu(
         menu_title=None, 
-        options=["Home","Preprocessing Data", "Show Wordcloud", "Show Grafik Sentimen", "Clasification SVM"], 
-        icons=["house", "sliders", "cloud-sun", "bar-chart", "search"],  
+        options=["Home","Preprocessing Data", "Show Wordcloud", "Show Grafik Sentimen", "Clasification SVM 60:40", "Clasification SVM 80:20"], 
+        icons=["house", "sliders", "cloud-sun", "bar-chart", "search", "search"],  
         default_index=0, 
         orientation="vertical", 
     )
@@ -139,5 +140,7 @@ elif option == 'Show Grafik Sentimen':
     st.dataframe(data) 
 
 
-elif option == 'Clasification SVM':
+elif option == 'Clasification SVM 60:40':
     show_svm()  
+elif option == 'Clasification SVM 80:20':
+    show_svm82()  
